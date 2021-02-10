@@ -2,6 +2,7 @@ package io.upslope;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.String.format;
@@ -139,7 +140,7 @@ public class TestHelpers {
         }
     }
 
-    public static void assertArrayListMutator(String className, String fieldName, String mutator, Class<?> c, Object instance, Field lines, Class<?> parameterType) {
+    public static void assertListMutator(String className, String fieldName, String mutator, Class<?> c, Object instance, Field lines, Class<?> parameterType) {
         Method mutatorMethod = null;
         try {
             mutatorMethod = c.getDeclaredMethod(mutator, parameterType);
@@ -153,7 +154,7 @@ public class TestHelpers {
             mutatorMethod.invoke(instance, "bar");
 
             lines.setAccessible(true);
-            ArrayList<String> data = (ArrayList<String>) lines.get(instance);
+            List<String> data = (List<String>) lines.get(instance);
             assertEquals(
                     asList("foo", "bar"),
                     data,
@@ -171,7 +172,7 @@ public class TestHelpers {
         }
     }
 
-    public static Field assertArrayListField(String className, String fieldName, Class<?> c) {
+    public static Field assertListField(String className, String fieldName, Class<?> c) {
         Field lines = null;
         try {
             lines = c.getDeclaredField(fieldName);
@@ -182,9 +183,9 @@ public class TestHelpers {
             }
 
             Type fieldBasicType = lines.getType();
-            assertEquals(
-                    ArrayList.class,
-                    fieldBasicType,
+
+            assertTrue(
+                    ((Class<?>) fieldBasicType).isAssignableFrom(List.class),
                     format(
                             "Expected the %s %s field to be an ArrayList of String, but got %s",
                             className,
