@@ -42,18 +42,23 @@ System.out.println(screenplay.generate());
 
 #### Running from the command line
 
-Run tests:
-
-```
-./gradlew test --tests ScreenplayTest
-open ./build/reports/tests/test/index.html
-```
-
 Run the Screenplay application:
 
 ```
 ./gradlew assemble
 java -cp build/classes/java/main ScreenplayApplication
+```
+
+Run tests:
+
+```
+./gradlew test --tests ScreenplayTest
+```
+
+Open test results from the command line (Mac / Linux):
+
+```
+open ./build/reports/tests/test/index.html
 ```
 
 ## Cheat Sheet
