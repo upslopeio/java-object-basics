@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'io.upslope'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+    testImplementation("org.junit.platform:junit-platform-launcher")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.12.1")
+    testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.1")
+}
+
+test {
+    systemProperty "junit.jupiter.extensions.autodetection.enabled", "true"
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+import org.gradle.api.internal.tasks.userinput.UserInputHandler;
+class LoginTask extends DefaultTask {
+
+    @TaskAction
+    def login() {
+        File file = new File("src/test/username.txt")
+        Random rnd = new Random()
+        def randomNumber = 500 + rnd.nextInt(100)
+        def defaultUsername = "user-" + randomNumber
+        if (file.exists() && file.canRead()) {
+            defaultUsername = file.getText('utf-8')
+        }
+        def username = project.getServices().get(UserInputHandler.class).askQuestion('> Enter your name for this session (for example joe or ana)', defaultUsername)
+        file.write username
+        println("logged in as " + username)
+    }
+}
+
+task login(type: LoginTask)
