@@ -13,6 +13,26 @@
 - there can be many instances of a given class in memory
 - you generate a new instance with the `new` keyword: `new Expense()`
 
+Example:
+
+```java
+// define the class
+class Expense {
+    private int id;
+    private Date date;
+    private String employeeName;
+    
+    public void setEmployeeName(String name) {
+        employeeName = name;
+    }
+    // etc. ...
+}
+
+// instantiate the class
+Expense expense1 = new Expense();
+Expense expense2 = new Expense();
+Expense expense3 = new Expense();
+```
 
 ![](images/class-and-instances.png)
 
