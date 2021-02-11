@@ -71,6 +71,8 @@ Check your work:
 ./gradlew test --tests MyApplicationTest
 ```
 
+----
+
 ## Exercise - Screenplay
 
 1. create a class named `Screenplay` in `src/main/java`
@@ -136,6 +138,25 @@ field1=value2&field2=value2
 ```
 
 ## Cheat Sheet
+
+### Public Static Void Main
+
+In IntelliJ, type `psvm` then hit the TAB key.
+
+```java
+public class SomeClass {
+
+    public static void main(String[] args) {
+    }
+
+}
+```
+
+### Print things to the console
+
+```java
+System.out.println("this is my sentence");
+```
 
 ### Basic State / Behavior Pattern
 
