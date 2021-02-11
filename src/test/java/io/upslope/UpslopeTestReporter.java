@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -88,11 +87,8 @@ public class UpslopeTestReporter implements TestExecutionListener {
     }
 
     public void testPlanExecutionFinished(TestPlan testPlan) {
-//        System.out.println("--------------------testPlanExecutionFinished-------------------------");
-
         try {
             String username = readUsername();
-//            System.out.println(username);
 
             if (username == null) {
                 username = writeUsername();
@@ -111,14 +107,10 @@ public class UpslopeTestReporter implements TestExecutionListener {
             objectMapper.registerModule(new Jdk8Module());
 
             String jsonInputString = objectMapper.writeValueAsString(new PostBody(username, results));
-//            System.out.println(jsonInputString);
             try (OutputStream os = con.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
-
-//            int code = con.getResponseCode();
-//            System.out.println(code);
 
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
@@ -127,7 +119,6 @@ public class UpslopeTestReporter implements TestExecutionListener {
                 while ((responseLine = br.readLine()) != null) {
                     response.append(responseLine.trim());
                 }
-//                System.out.println(response.toString());
             }
         } catch (IOException e) {
         }

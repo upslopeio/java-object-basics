@@ -2,6 +2,8 @@
 
 ✨ See the Cheat Sheet at the bottom ✨
 
+If you haven't downloaded IntelliJ, (try out the community edition)[https://www.jetbrains.com/idea/download/].
+
 ## Step 1
 
 Run the following command, and enter your name:
@@ -59,6 +61,19 @@ Open test results from the command line (Mac / Linux):
 
 ```
 open ./build/reports/tests/test/index.html
+```
+
+## Exercise #2 - Form Fields
+
+1. create a class named `FormFields`
+1. add a private field `HashMap` named `fields` that maps `String` keys to `String` values
+1. add a mutator method named `addField` that takes two `String`s (a key and a value), and adds an entry to the `HashMap`
+1. add an accessor method named `urlEncoded` that returns a `String` containing all the fields and values like
+
+The output of `urlEncoded` should look like this:
+   
+```
+field1=value2&field2=value2
 ```
 
 ## Cheat Sheet
@@ -124,7 +139,8 @@ ArrayList<String> words = new ArrayList<>();
 words.add("happy");
 words.add("joyful");
 
-// this loop will execute twice
+// The code inside the loop will run twice 
+// since there are two items in the ArrayList
 for(String word : words) {
     System.out.println(word);
 }
@@ -138,10 +154,10 @@ HashMap<String, String> myMap = new HashMap<>();
 myMap.put("name", "Tim");
 myMap.put("zipCode", "10101");
 
-// this loop will execute twice
+// The code inside the loop will run twice 
+// since there are two key/value pairs in the HashMap
 for(Map.Entry<String, String> entry : myMap.entrySet()) {
     System.out.println(entry.getKey());
     System.out.println(entry.getValue());
 }
 ```
-

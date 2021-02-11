@@ -1,8 +1,9 @@
 package io.upslope;
 
 import java.lang.reflect.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static java.lang.String.format;
@@ -172,6 +173,62 @@ public class TestHelpers {
         }
     }
 
+    public static void assertMapMutator(
+            String className,
+            String fieldName,
+            String mutator,
+            Class<?> c,
+            Object instance,
+            Field privateField,
+            Class<?> parameterType,
+            Class<?> keyType,
+            Class<?> valueType
+    ) {
+        Method mutatorMethod = null;
+        try {
+            mutatorMethod = c.getDeclaredMethod(mutator, keyType, valueType);
+            Class<?> returnType = mutatorMethod.getReturnType();
+            assertEquals(
+                    Void.TYPE,
+                    returnType,
+                    format("Expected %s() to return void but it returns %s", mutator, returnType)
+            );
+            String randomString = getRandomString();
+            mutatorMethod.invoke(instance, "title", randomString);
+            mutatorMethod.invoke(instance, "year", "1977");
+
+            privateField.setAccessible(true);
+            Map<String, String> data = (Map<String, String>) privateField.get(instance);
+            assertEquals(
+                    new HashMap<String, String>() {
+                        {
+                            put("title", randomString);
+                            put("year", "1977");
+                        }
+                    },
+                    data,
+                    format("Expected the Map %s to contain all the items passed to %s", fieldName, mutator)
+            );
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            fail(format(
+                    "Could not find a public %s(%s, %s) method on %s",
+                    mutator,
+                    keyType.getSimpleName(),
+                    valueType.getSimpleName(),
+                    className
+            ));
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            fail(format(
+                    "Could not call %s(%s, %s) on %s",
+                    mutator,
+                    keyType.getSimpleName(),
+                    valueType.getSimpleName(),
+                    className
+            ));
+        }
+    }
+
     public static Field assertListField(String className, String fieldName, Class<?> c) {
         Field lines = null;
         try {
@@ -185,7 +242,7 @@ public class TestHelpers {
             Type fieldBasicType = lines.getType();
 
             assertTrue(
-                    ((Class<?>) fieldBasicType).isAssignableFrom(List.class),
+                    List.class.isAssignableFrom((Class<?>) fieldBasicType),
                     format(
                             "Expected the %s %s field to be an ArrayList of String, but got %s",
                             className,
@@ -210,6 +267,53 @@ public class TestHelpers {
             fail(format("Expected %s to have a private field named %s but it does not", className, fieldName));
         }
         return lines;
+    }
+
+    public static Field assertMapField(String className, String fieldName, Class<?> clazz) {
+        Field privateField = null;
+        try {
+            privateField = clazz.getDeclaredField(fieldName);
+
+            int modifiers = privateField.getModifiers();
+            if (!Modifier.isPrivate(modifiers)) {
+                fail(format("Expected the %s field to be private but it is not", fieldName));
+            }
+
+            Type fieldBasicType = privateField.getType();
+
+            assertTrue(
+                    Map.class.isAssignableFrom((Class<?>) fieldBasicType),
+                    format(
+                            "Expected the %s %s field to be a Map<String,String>, but got %s",
+                            className,
+                            fieldName,
+                            ((Class<?>) fieldBasicType).getSimpleName()
+                    )
+            );
+
+            ParameterizedType fieldType = (ParameterizedType) privateField.getGenericType();
+            Class<?> firstGenericType = (Class<?>) fieldType.getActualTypeArguments()[0];
+            Class<?> secondGenericType = (Class<?>) fieldType.getActualTypeArguments()[1];
+            assertEquals(
+                    String.class,
+                    firstGenericType,
+                    format(
+                            "Expected the %s %s field to be a Map<String, String>, but got Map<%s, %s>",
+                            className,
+                            fieldName,
+                            firstGenericType.getSimpleName(),
+                            secondGenericType.getSimpleName()
+                    )
+            );
+
+            privateField.setAccessible(true);
+            Object data = privateField.get(getInstance(className, clazz));
+            assertNotNull(data, String.format("Expected private field to not be null"));
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            fail(format("Expected %s to have a private field named %s but it does not", className, fieldName));
+        }
+        return privateField;
     }
 
     public static Object getInstance(String className, Class<?> c) {
