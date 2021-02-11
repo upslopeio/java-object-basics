@@ -16,6 +16,9 @@
 
 ![](images/class-and-instances.png)
 
+**Instantiate** - to create a new Object (Instance of a class)
+- Example: "Instantiate an Expense" means to write `Expense myExpense = new Expense()`
+- Example: "Instantiate an Diagram" means to write `Diagram someDiagram = new Diagram()`
 
 [**Field** - a piece of data on an Object](https://docs.oracle.com/javase/tutorial/java/javaOO/variables.html)
 - An Expense object might have an `employeeName` field, and a `date` field
@@ -73,6 +76,41 @@ Check your work:
 
 ----
 
+## Exercise - Counter
+
+1. Create a class named `Counter` in `src/main/java`
+1. Add a private field named `clicks` of type `int`
+1. Add a public method named `increment()` that adds 1 to the `clicks` field
+1. Add a public method named `decrement()` that removes 1 from the `clicks` field
+1. Add a public method named `getClicks()` that returns the value of `clicks`
+1. In the `MyApplication` class, instantiate a few different `Counter` objects
+    - on each object, call `increment()`, `decrement()` a few times 
+    - on each object, print out the result of `getClicks()` 
+
+
+### Run from IntelliJ
+
+Click the "Play" button next to the `main` function in `MyApplication`
+
+Check your work:
+
+Right-click on the `src/test/java/CounterTest` class and choose "Run"
+
+### Run from the Command Line
+
+```
+./gradlew assemble
+java -cp build/classes/java/main MyApplication
+```
+
+Check your work:
+
+```
+./gradlew test --tests CounterTest
+```
+
+----
+
 ## Exercise - Screenplay
 
 1. create a class named `Screenplay` in `src/main/java`
@@ -80,10 +118,10 @@ Check your work:
 1. add a private field named `lines` that's an `ArrayList` of Strings
 1. add a mutator method named `addLine` that takes a `String`, and adds it to the `lines` field
 1. add an accessor method named `generate` that returns a `String` containing the title and all the lines, separated by a newline
+1. add code in `MyApplication` to instantiate several `Screenplay` classes
+    - for each object, call `addLine` and print out the results of `generate()`
 
-As you write code, run the `ScreenplayTest` regularly.
-
-You can run code in the `ScreenplayApplication` class. For example:
+Example code in `MyApplication`:
 
 ```java
 Screenplay screenplay = new Screenplay();
@@ -105,11 +143,11 @@ System.out.println(screenplay.generate());
 
 #### Running from the command line
 
-Run the Screenplay application:
+Run the application:
 
 ```
 ./gradlew assemble
-java -cp build/classes/java/main ScreenplayApplication
+java -cp build/classes/java/main MyApplication
 ```
 
 Run tests:

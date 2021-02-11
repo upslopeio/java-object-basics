@@ -269,6 +269,35 @@ public class TestHelpers {
         return lines;
     }
 
+    public static Field assertPrimitiveField(String className, String fieldName, Class<?> c, Class<?> type) {
+        Field field = null;
+        try {
+            field = c.getDeclaredField(fieldName);
+
+            int modifiers = field.getModifiers();
+            if (!Modifier.isPrivate(modifiers)) {
+                fail(format("Expected the %s field to be private but it is not", fieldName));
+            }
+
+            Type fieldBasicType = field.getType();
+
+            assertEquals(
+                    type,
+                    fieldBasicType,
+                    format(
+                            "Expected the %s %s field to be of type %s, but got %s",
+                            className,
+                            fieldName,
+                            type.getSimpleName(),
+                            ((Class<?>) fieldBasicType).getSimpleName()
+                    )
+            );
+        } catch (NoSuchFieldException e) {
+            fail(format("Expected %s to have a private field named %s but it does not", className, fieldName));
+        }
+        return field;
+    }
+
     public static Field assertMapField(String className, String fieldName, Class<?> clazz) {
         Field privateField = null;
         try {
