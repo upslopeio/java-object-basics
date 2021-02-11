@@ -2,6 +2,8 @@
 
 ✨ See the Cheat Sheet at the bottom ✨
 
+If you haven't downloaded IntelliJ, [try out the community edition](https://www.jetbrains.com/idea/download/).
+
 ## Java Vocabulary
 
 [**Class** - a blueprint for an object](https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html)
@@ -54,8 +56,6 @@ Expense expense3 = new Expense();
 
 **Setter** - a method that typically sets the value of a field on an object
 - For example `setEmployeeName()` or `setDate()`
-
-If you haven't downloaded IntelliJ, (try out the community edition)[https://www.jetbrains.com/idea/download/].
 
 ## Step 1
 
