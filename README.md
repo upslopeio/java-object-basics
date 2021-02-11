@@ -12,7 +12,34 @@ Run the following command, and enter your name:
 ./gradlew login
 ```
 
-## Exercise #1
+## Exercise - Hello World
+
+1. Create a class named `MyApplication` in `src/main/java`
+1. Add a `main` method to the class
+1. In the `main` method, print something to `System.out` (for example `"Hello world"`)
+
+### Run from IntelliJ
+
+In the `MyApplication` test, click the green "play" button next to the `main` method.
+
+Check your work:
+
+Right-click on the file `src/test/java/MyApplicationTest` and click "run"
+
+### Run from the Command Line
+
+```
+./gradlew assemble
+java -cp build/classes/java/main MyApplication
+```
+
+Check your work:
+
+```
+./gradlew test --tests MyApplicationTest
+```
+
+## Exercise - Screenplay
 
 1. create a class named `Screenplay` in `src/main/java`
 1. add a private `String` field named `title` with a getter and setter
@@ -63,7 +90,7 @@ Open test results from the command line (Mac / Linux):
 open ./build/reports/tests/test/index.html
 ```
 
-## Exercise #2 - Form Fields
+## Exercise - Form Fields
 
 1. create a class named `FormFields`
 1. add a private field `HashMap` named `fields` that maps `String` keys to `String` values
@@ -78,7 +105,39 @@ field1=value2&field2=value2
 
 ## Cheat Sheet
 
-### Basic Pattern
+### Java Vocabulary
+
+[**Class** - a blueprint for an object](https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html)
+- a class represents an abstract concept of something, like Expense or TimeSheetEntry
+- each class exists in memory once
+
+[**Object (Instance)** - a structure in memory that has its own data, and is tied to a class](https://docs.oracle.com/javase/tutorial/java/javaOO/objects.html) 
+- an instance represents an actual item, like "Ana's Expense on 1/3/2018"    
+- there can be many instances of a given class in memory
+- you generate a new instance with the `new` keyword: `new Expense()`
+
+
+![](images/class-and-instances.png)
+
+
+[**Field** - a piece of data on an Object](https://docs.oracle.com/javase/tutorial/java/javaOO/variables.html)
+- An Expense object might have an `employeeName` field, and a `date` field
+- You can think of fields as properties, or attributes of the object
+- Classes define what fields an instance can have. Instances store the actual field values.
+
+[**Method** - a bit of code that can perform calculations, or change the fields of an object](https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html)
+- If a method just returns data, and doens't change the object, it's an "accessor" method (or a "getter" method)
+- If a method alters the instances data, it's a "mutator" method (sometimes it's a "setter" method)
+    
+**Getter** - a method that typically just returns a specific field from an object
+- For example `getEmployeeName()` or `getDate()`
+
+**Setter** - a method that typically sets the value of a field on an object
+- For example `setEmployeeName()` or `setDate()`
+    
+
+
+### Basic State / Behavior Pattern
 
 1. Define a private field
 1. Define a mutator method (sometimes it's a setter)
